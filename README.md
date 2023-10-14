@@ -1,5 +1,5 @@
-# terraform-recipes
-Terraform recipes for most common environments
+# Easy Terraform Machine
+The easiest way to run a cloud machine with Terraform. 
 
 ## How it works  
 Terraform is an awesome environment to execute virtual machines.
@@ -10,16 +10,14 @@ You need to configure the authentication APIs to use the environments. Each sect
 
 
 ### Setup the variables
-In order to use the recipes you need to: 
+Just two things:
 1. Setup the authentication tokens
-2. Configure the environment variables
-
-You can have two alternative: use the `.bashrc` (or `.zshrc`) environment variable, or create a `.env` file and configure as you need. 
+2. Configure the environment variables (use the `.bashrc`, `.zshrc` environment file, or just  `env` file and configure as you need:
 
 ```
-cp .env.tpl .env ; 
+cp env.tpl env ; 
 # Change variables and source it
-source .env
+source env
 ```
 
 ## Cloud Providers 
@@ -34,7 +32,12 @@ You have to create Access key and secret key with proper permissions.
 Install the `awscli` and follow the guide. 
 
 
-#### Available variables
+#### Available variables 
+* `ssh_public_key` : the public key used to access to the machine 
+* `aws_region` : the AWS region
+* `aws_ami` : the AWS ami
+
+
 #### Find variables
 * List AMIs: 
 ```
@@ -49,6 +52,69 @@ You also have several commands for specific distros:
 For ubuntu you can check here: 
 https://cloud-images.ubuntu.com/locator/ec2/
 
+
+### Azure 
+Used provider: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
+
+
+#### Authentication 
+
+1. `az login` to authorize Azure. 
+
+To check if everything is ok, send the following: 
+```
+az account show
+```
+it should show the following information: 
+```
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "...",
+  "id": "...", # NOTE: This is the subscription
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "Azure per studenti",
+  "state": "Enabled",
+  "tenantId": "2fcfe26a-bb62-46b0-b1e3-28f9da0c45fd",
+  "user": {
+    "name": "<username>",
+    "type": "user"
+  }
+}
+```
+
+Take note for the `id` field: it is the `subscription ID`. 
+
+2. Then, create the service principal by following the Azure documentation: 
+```
+https://learn.microsoft.com/en-us/azure/developer/terraform/get-started-cloud-shell-bash?tabs=bash#create-a-service-principal
+```
+
+The command to create it is: 
+```
+az ad sp create-for-rbac --name terraform  --role Contributor --scopes /subscriptions/9c4a6c7d-6adc-4225-8635-3cf956e775fe
+```
+
+Store the information in environment variable: 
+```
+export ARM_SUBSCRIPTION_ID="<azure_subscription_id>"
+export ARM_TENANT_ID="2fcfe26a-bb62-46b0-b1e3-28f9da0c45fd"
+export ARM_CLIENT_ID="<service_principal_appid>"
+export ARM_CLIENT_SECRET="<service_principal_password>"
+```
+
+
+#### Available variables 
+* `ssh_public_key` : the public key used to access to the machine 
+
+
+
+#### Find variables 
+* List images: 
+```
+az vm image list --all --publisher Canonical
+
+```
 
 
 ### Digital Ocean 
