@@ -1,3 +1,7 @@
+<div>
+    <img src="https://raw.githubusercontent.com/giper45/easy-terraform-machine/main/docs/logo.png" alt="Eeasy Terraform Machine logo" title="Easy Terraform" align="right" height="90" />
+</div>
+
 # Easy Terraform Machine
 The easiest way to run a cloud machine with Terraform. 
 
