@@ -2,6 +2,8 @@
     <img src="https://raw.githubusercontent.com/giper45/easy-terraform-machine/main/docs/logo.png" alt="Eeasy Terraform Machine logo" title="Easy Terraform" align="right" height="90" />
 </div>
 
+<a name="readme-top"></a>
+
 # Easy Terraform Machine
 The easiest way to run a cloud machine with Terraform. 
 
@@ -25,6 +27,16 @@ source env
 ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Run
+After the env vars setup, just go in the specific folder and run `terraform`.
+For example:
+
+```
+cd aws
+terraform init 
+terraform apply
+```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Cloud Providers 
 There is support for `AWS`, `DigitalOcean` and `Azure` providers.
