@@ -16,6 +16,13 @@ resource "aws_security_group" "terraform" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]  # Allow SSH from anywhere (for demo purposes)
   }
+  ingress {
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow SSH from anywhere (for demo purposes)
+  }
+
 
   ingress {
     from_port   = 80
@@ -58,8 +65,26 @@ resource "aws_instance" "terraform-machine" {
 
 output "hello" {
   value = <<HELLO
-  Hello, to login: 
+  Instance ID: ${aws_instance.terraform-machine.id}
+  Linux machines login: 
       ssh ec2-user@${aws_instance.terraform-machine.public_ip} # for Amazon AMIs
       ssh ubuntu@${aws_instance.terraform-machine.public_ip} # for Ubuntu AMIs
+
+  Windows machines:
+  (Wait just 10 seconds before run it)
+  sleep 10
+  aws ec2 get-password-data --instance-id  ${aws_instance.terraform-machine.id} |  jq -r .PasswordData | base64 -d  > /tmp/encrypted.txt
+  export WINPASSWORD=`openssl rsautl -decrypt  -inkey ~/.ssh/id_rsa -in /tmp/encrypted.txt`
+  rm /tmp/encrypted.txt
+
+  Login with: 
+  Username: Administrator
+  Password: (echo $WINPASSWORD)
+  IP Address: ${aws_instance.terraform-machine.public_ip} 
+
+  
+
+
+  If you are in the 
   HELLO
 }
