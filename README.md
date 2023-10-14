@@ -7,10 +7,10 @@ The easiest way to run a cloud machine with Terraform.
 
 ## How it works  
 Terraform is an awesome environment to execute virtual machines.
-The prjoect aims to provide basic terraform recipes to configure single virtual instances in all the environments.
+The project aims to provide basic terraform recipes to configure single virtual instances in all the environments.
 Depending on your needs you can use them and customize them.
 
-You need to configure the authentication APIs to use the environments. Each section in the `README` provides you information about how to perform it (see the Prequirements section)
+You need to configure the `authentication APIs` to use the environments. Each section in the `README` provides you information about how to perform it (see the `Authentication` section)
 
 
 ### Setup the variables
